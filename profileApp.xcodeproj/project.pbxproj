@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C4645EDE2B68C50100D82D32 /* GridCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4645EDD2B68C50100D82D32 /* GridCollectionViewFlowLayout.swift */; };
+		C4645EE02B68C5A400D82D32 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4645EDF2B68C5A400D82D32 /* MyCell.swift */; };
 		C4CC1D7A2B675B3A00A66837 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CC1D792B675B3A00A66837 /* AppDelegate.swift */; };
 		C4CC1D7C2B675B3A00A66837 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CC1D7B2B675B3A00A66837 /* SceneDelegate.swift */; };
 		C4CC1D7E2B675B3A00A66837 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CC1D7D2B675B3A00A66837 /* ViewController.swift */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C4645EDD2B68C50100D82D32 /* GridCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		C4645EDF2B68C5A400D82D32 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
 		C4CC1D762B675B3A00A66837 /* profileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = profileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4CC1D792B675B3A00A66837 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4CC1D7B2B675B3A00A66837 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 				C4CC1D822B675B3B00A66837 /* Assets.xcassets */,
 				C4CC1D842B675B3B00A66837 /* LaunchScreen.storyboard */,
 				C4CC1D872B675B3B00A66837 /* Info.plist */,
+				C4645EDD2B68C50100D82D32 /* GridCollectionViewFlowLayout.swift */,
+				C4645EDF2B68C5A400D82D32 /* MyCell.swift */,
 			);
 			path = profileApp;
 			sourceTree = "<group>";
@@ -134,6 +140,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4645EDE2B68C50100D82D32 /* GridCollectionViewFlowLayout.swift in Sources */,
+				C4645EE02B68C5A400D82D32 /* MyCell.swift in Sources */,
 				C4CC1D7E2B675B3A00A66837 /* ViewController.swift in Sources */,
 				C4CC1D7A2B675B3A00A66837 /* AppDelegate.swift in Sources */,
 				C4CC1D7C2B675B3A00A66837 /* SceneDelegate.swift in Sources */,

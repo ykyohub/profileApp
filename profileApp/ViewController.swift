@@ -8,7 +8,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-
     let userID: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -197,7 +196,7 @@ class ViewController: UIViewController {
             button.setImage(chevronImage, for: .normal)
             button.tintColor = .black
         }
-
+        
         button.layer.cornerRadius = 5
         button.layer.masksToBounds = true
         button.layer.borderWidth = 1
@@ -214,13 +213,56 @@ class ViewController: UIViewController {
         stackView.spacing = 8
         return stackView
     }()
+    
+    let gridButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "Grid"), for: .normal)
+        return button
+    }()
+    
+    let gridButtonStack: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 8
 
+        return stackView
+    }()
+    
+    private let gridFlowLayout: GridCollectionViewFlowLayout = {
+        let layout = GridCollectionViewFlowLayout()
+        layout.cellSpacing = 8
+        layout.numberOfColumns = 3
+        return layout
+    }()
+    
+    private var dataSource = getSampleImages()
+    
+    private lazy var collectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: self.gridFlowLayout)
+        view.isScrollEnabled = true
+        view.showsHorizontalScrollIndicator = false
+        view.showsVerticalScrollIndicator = true
+        view.contentInset = .zero
+        view.backgroundColor = .clear
+        view.clipsToBounds = true
+        view.register(MyCell.self, forCellWithReuseIdentifier: "MyCell")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
         addSubView()
         setupConstraints()
+        
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
     }
 
     private func addSubView() {
@@ -248,7 +290,9 @@ class ViewController: UIViewController {
         followMessageStack.addArrangedSubview(messageButton)
         view.addSubview(followMessageStack)
         view.addSubview(moreButton)
-        
+        view.addSubview(self.collectionView)
+        gridButtonStack.addArrangedSubview(gridButton)
+        view.addSubview(gridButtonStack)
     }
 
     private func setupConstraints() {
@@ -277,7 +321,49 @@ class ViewController: UIViewController {
             moreButton.topAnchor.constraint(equalTo: userInfo2Stack.bottomAnchor, constant: 20),
             moreButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             moreButton.widthAnchor.constraint(equalToConstant: 30),
-            moreButton.heightAnchor.constraint(equalToConstant: 30)
+            moreButton.heightAnchor.constraint(equalToConstant: 30),
+            
+            gridButtonStack.heightAnchor.constraint(equalToConstant: 40),
+            gridButtonStack.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 1/3),
+            gridButtonStack.topAnchor.constraint(equalTo: followMessageStack.bottomAnchor, constant: 10),
+            gridButtonStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            gridButtonStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            
+            self.collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            self.collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            self.collectionView.topAnchor.constraint(equalTo: gridButtonStack.bottomAnchor),
+            self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
         ])
+    }
+}
+private func getSampleImages() -> [UIImage?]{
+    (1...18).map { _ in return UIImage(named: "ProfilePicture")}
+}
+
+extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        self.dataSource.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCell.id, for: indexPath) as! MyCell
+        cell.prepare(image: self.dataSource[indexPath.row])
+        return cell
+    }
+}
+
+extension ViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let flowLayout = collectionViewLayout as? GridCollectionViewFlowLayout, flowLayout.numberOfColumns > 0
+        else { fatalError() }
+        
+        let widthOfCells = collectionView.bounds.width
+        
+        let widthOfSpacing = CGFloat(flowLayout.numberOfColumns - 1) * flowLayout.cellSpacing
+        
+        let width = Int((widthOfCells - widthOfSpacing) / CGFloat(flowLayout.numberOfColumns))
+        
+        return CGSize(width: width, height: width * Int(flowLayout.ratioHeightToWidth))
     }
 }
