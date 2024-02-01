@@ -232,6 +232,17 @@ class ViewController: UIViewController {
         return stackView
     }()
     
+    let changeToProfileButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        if let buttonImage = UIImage(named: "Profile")?.withRenderingMode(.alwaysTemplate) {
+            button.setImage(buttonImage, for: .normal)
+            button.tintColor = .black
+        }
+        button.addTarget(target, action: #selector(showProfileVC), for: .touchUpInside)
+        return button
+    }()
+    
     private let gridFlowLayout: GridCollectionViewFlowLayout = {
         let layout = GridCollectionViewFlowLayout()
         layout.cellSpacing = 8
@@ -248,6 +259,8 @@ class ViewController: UIViewController {
         view.showsVerticalScrollIndicator = true
         view.contentInset = .zero
         view.backgroundColor = .clear
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.lightGray.cgColor
         view.clipsToBounds = true
         view.register(MyCell.self, forCellWithReuseIdentifier: "MyCell")
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -293,6 +306,7 @@ class ViewController: UIViewController {
         view.addSubview(self.collectionView)
         gridButtonStack.addArrangedSubview(gridButton)
         view.addSubview(gridButtonStack)
+        view.addSubview(changeToProfileButton)
     }
 
     private func setupConstraints() {
@@ -332,18 +346,30 @@ class ViewController: UIViewController {
             self.collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             self.collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             self.collectionView.topAnchor.constraint(equalTo: gridButtonStack.bottomAnchor),
-            self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.collectionView.bottomAnchor.constraint(equalTo: changeToProfileButton.topAnchor),
+            
+            changeToProfileButton.heightAnchor.constraint(equalToConstant: 50),
+            changeToProfileButton.topAnchor.constraint(equalTo: self.collectionView.bottomAnchor),
+            changeToProfileButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            changeToProfileButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             
         ])
     }
+    
+    @objc func showProfileVC() {
+        let vc = ProfileViewController()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+    }
 }
 private func getSampleImages() -> [UIImage?]{
+    
     (1...18).map { _ in return UIImage(named: "ProfilePicture")}
 }
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.dataSource.count
+        return self.dataSource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
