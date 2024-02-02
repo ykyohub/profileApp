@@ -357,14 +357,23 @@ class ViewController: UIViewController {
     }
     
     @objc func showProfileVC() {
-        let vc = ProfileViewController()
+        let user = User(name: "윤규호", age: 27)
+        let viewModel = UserViewModel(user: user)
+        let vc = ProfileViewController(viewModel: viewModel)
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
 }
 private func getSampleImages() -> [UIImage?]{
-    
-    (1...18).map { _ in return UIImage(named: "ProfilePicture")}
+    [
+        UIImage(named: "picture 0"),
+        UIImage(named: "picture 1"),
+        UIImage(named: "picture 2"),
+        UIImage(named: "picture 3"),
+        UIImage(named: "picture 4"),
+        UIImage(named: "picture 5"),
+        UIImage(named: "picture 6")
+    ]
 }
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
